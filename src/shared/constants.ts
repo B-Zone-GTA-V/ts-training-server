@@ -1292,3 +1292,11 @@ export enum ClothesComponents {
     DECAL,
     TOP
 };
+
+export enum PropComponents { 
+    HAT = 0,
+    GLASSES = 1,
+    EARS = 2,
+    WATCH = 6,
+    BRACELET = 7
+}

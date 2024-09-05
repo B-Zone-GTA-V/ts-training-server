@@ -1,4 +1,4 @@
-import { ClothesComponents, getVehicleHashByName, getWeaponHashByName } from "@shared/constants";
+import { ClothesComponents, getVehicleHashByName, getWeaponHashByName, PropComponents } from "@shared/constants";
 import { clothes } from "./clothes";
 
 class Commands {
@@ -46,6 +46,7 @@ class Commands {
         BAG: 'bag',
         MASK: 'mask',
         HAIRSTYLE: 'hairstyle',
+        HAT: 'hat',
         SETTIME: 'settime',
         SETWEATHER: 'setweather',
         DESPAWN_VEHICLE: 'dv',
@@ -208,7 +209,7 @@ class Commands {
             player.outputChatBox(`Weather Commands: /settime, /setweather`);
             player.outputChatBox(`Weapon Commands: /gg`);
             player.outputChatBox(`Vehicle Commands: /veh, /dv, /setcolor`);
-            player.outputChatBox(`Clothes Commands: /male, /female, /top, /undershirt, /torso, /legs, /shoes, /bag, /mask, /hairstyle`);
+            player.outputChatBox(`Clothes Commands: /male, /female, /top, /undershirt, /torso, /legs, /shoes, /bag, /mask, /hairstyle, /hat`);
             player.outputChatBox(`World Commands: /setvw, /snow, /removesnow`);
         }),
 
@@ -409,6 +410,14 @@ class Commands {
                 return;
             }
             player.setClothes(ClothesComponents.HAIRSTYLE, parseInt(drawable), parseInt(texture), 2);
+        }),
+
+        mp.events.addCommand(this.commandsList.HAT, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/hat <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setProp(PropComponents.HAT, parseInt(drawable), parseInt(texture));
         }),
 
         // Weather
