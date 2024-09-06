@@ -47,6 +47,11 @@ class Commands {
         MASK: 'mask',
         HAIRSTYLE: 'hairstyle',
         HAT: 'hat',
+        GLASSES: 'glasses',
+        EARS: 'ears',
+        WATCH: 'watch',
+        BRACELET: 'bracelet',
+        TATTOO: 'tattoo',
         SETTIME: 'settime',
         SETWEATHER: 'setweather',
         DESPAWN_VEHICLE: 'dv',
@@ -209,7 +214,7 @@ class Commands {
             player.outputChatBox(`Weather Commands: /settime, /setweather`);
             player.outputChatBox(`Weapon Commands: /gg`);
             player.outputChatBox(`Vehicle Commands: /veh, /dv, /setcolor`);
-            player.outputChatBox(`Clothes Commands: /male, /female, /top, /undershirt, /torso, /legs, /shoes, /bag, /mask, /hairstyle, /hat`);
+            player.outputChatBox(`Clothes Commands: /male, /female, /top, /undershirt, /torso, /legs, /shoes, /bag, /mask, /hairstyle, /hat, /glasses, /ears, /watch, /bracelet, /tattoo`);
             player.outputChatBox(`World Commands: /setvw, /snow, /removesnow`);
         }),
 
@@ -420,6 +425,46 @@ class Commands {
             player.setProp(PropComponents.HAT, parseInt(drawable), parseInt(texture));
         }),
 
+        mp.events.addCommand(this.commandsList.GLASSES, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/glasses <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setProp(PropComponents.GLASSES, parseInt(drawable), parseInt(texture));
+        }),
+
+        mp.events.addCommand(this.commandsList.EARS, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/ears <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setProp(PropComponents.EARS, parseInt(drawable), parseInt(texture));
+        }),
+
+        mp.events.addCommand(this.commandsList.WATCH, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/watch <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setProp(PropComponents.WATCH, parseInt(drawable), parseInt(texture));
+        }),
+
+        mp.events.addCommand(this.commandsList.BRACELET, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/bracelet <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setProp(PropComponents.BRACELET, parseInt(drawable), parseInt(texture));
+        }),
+
+        mp.events.addCommand(this.commandsList.TATTOO, (player, _fullText, collection, overlay) => {
+            if (!collection || !overlay) {
+                player.outputChatBox(`Usage: [/tattoo <Collection> <Overlay>]`);
+                return;
+            }
+            player.setDecoration(mp.joaat(collection), parseInt(overlay));
+        }),
+        
         // Weather
         mp.events.addCommand(this.commandsList.SETTIME, (player, _fullText, time) => {
             if (!time) {
