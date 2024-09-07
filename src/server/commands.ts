@@ -51,6 +51,7 @@ class Commands {
         EARS: 'ears',
         WATCH: 'watch',
         BRACELET: 'bracelet',
+        BODYARMOR: 'bodyarmor',
         TATTOO: 'tattoo',
         SETTIME: 'settime',
         SETWEATHER: 'setweather',
@@ -417,6 +418,14 @@ class Commands {
             player.setClothes(ClothesComponents.HAIRSTYLE, parseInt(drawable), parseInt(texture), 2);
         }),
 
+        mp.events.addCommand(this.commandsList.BODYARMOR, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/bodyarmor <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setClothes(ClothesComponents.ARMOUR, parseInt(drawable), parseInt(texture), 2);
+        }),
+
         mp.events.addCommand(this.commandsList.HAT, (player, _fullText, drawable, texture) => {
             if (!drawable || !texture) {
                 player.outputChatBox(`Usage: [/hat <Drawable Id> <Texture Id>]`);
@@ -462,7 +471,7 @@ class Commands {
                 player.outputChatBox(`Usage: [/tattoo <Collection> <Overlay>]`);
                 return;
             }
-            player.setDecoration(mp.joaat(collection), parseInt(overlay));
+            player.setDecoration(mp.joaat(collection), mp.joaat(overlay));
         }),
         
         // Weather
