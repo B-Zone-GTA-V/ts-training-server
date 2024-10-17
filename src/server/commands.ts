@@ -36,6 +36,7 @@ class Commands {
         GETGUN: 'gg',
         REVIVE: 'revive',
         VEH: 'veh',
+        SETMOD: 'setmod',
         FEMALE: 'female',
         MALE: 'male',
         TOP: 'top',
@@ -214,7 +215,7 @@ class Commands {
             player.outputChatBox(`Health & Armor Commands: /sethp, /setarmor, /mf, /revive`);
             player.outputChatBox(`Weather Commands: /settime, /setweather`);
             player.outputChatBox(`Weapon Commands: /gg`);
-            player.outputChatBox(`Vehicle Commands: /veh, /dv, /setcolor`);
+            player.outputChatBox(`Vehicle Commands: /veh, /setmod, /dv, /setcolor`);
             player.outputChatBox(`Clothes Commands: /male, /female, /top, /undershirt, /torso, /legs, /shoes, /bag, /mask, /hairstyle, /hat, /glasses, /ears, /watch, /bracelet, /tattoo`);
             player.outputChatBox(`World Commands: /setvw, /snow, /removesnow`);
         }),
@@ -319,6 +320,19 @@ class Commands {
                 return;
             }
             this.spawnVehicle(player, vehicleName);
+        }),
+        
+        mp.events.addCommand(this.commandsList.SETMOD, (player, _fullText, modType, modIndex) => {
+            if (!player.vehicle) {
+                player.outputChatBox("You need to be in a vehicle to use this command.");
+                return;
+            }
+            if (!modType || !modIndex) {
+                player.outputChatBox(`Usage: [/setmod <Mod Type> <Mod Index>]`);
+                return;
+            }
+            player.vehicle.setMod(parseInt(modType), parseInt(modIndex));
+            player.outputChatBox(`Mod Type ${modType} with Mod Index ${modIndex} applied.`);
         }),
 
         mp.events.addCommand(this.commandsList.DESPAWN_VEHICLE, (player, _fullText, vehicleId) => {
