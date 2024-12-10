@@ -1270,7 +1270,25 @@ export const vehicleNameToHash: EnumDictionary<string, string> = {
    "roxanne": "4036327635",
    "nsandstorm": "616169499",
    "b6": "1909978403",
-   "nm_jes": "2994851214"
+   "nm_jes": "2994851214",
+   "banshee3": "3634959571",
+   "cargobob5": "3942284983",
+   "chavosv6": "1992041063",
+   "coquette6": "127317925",
+   "driftcheburek": "2828274931",
+   "driftfuto2": "3005741670",
+   "driftjester3": "3932276298",
+   "duster2": "84351789",
+   "firebolt": "3321950518",
+   "freightcar3": "2420957787",
+   "jester5": "1484920335",
+   "polcaracara": "2346018232",
+   "polcoquette4": "2042703219",
+   "polfaction2": "1891140410",
+   "polterminus": "2973836112",
+   "titan2": "858355070",
+   "uranus": "1534326199",
+   "youga5": "2266063097"
 }
 
 export function getVehicleHashByName(vehicleName: string): string | undefined {
