@@ -17,7 +17,8 @@ class VehicleSpeedo {
 
         if (currentVehicle) {
             const speed = currentVehicle.getSpeed();
-            const vehicleSpeed = speed < 64 ? speed * (speed / 20) * 2 : speed * 6;
+            // const vehicleSpeed = speed < 64 ? speed * (speed / 20) * 2 : speed * 6;
+            const vehicleSpeed = speed * 3.6;
 
             const finalSpeed = Math.floor(vehicleSpeed);
             const color = this.getColorBySpeed(finalSpeed);
