@@ -62,6 +62,8 @@ class Commands {
         DEBUG_LABELS: 'dl',
         SNOW: 'snow',
         REMOVE_SNOW: 'removesnow',
+        PLAY_ANIMATION: 'playanim',
+        STOP_ANIMATION: 'stopanim'
     }
 
     findPlayer(usernameOrId: string): PlayerMp | null {
@@ -217,6 +219,7 @@ class Commands {
             player.outputChatBox(`Weapon Commands: /gg`);
             player.outputChatBox(`Vehicle Commands: /veh, /setmod, /dv, /setcolor`);
             player.outputChatBox(`Clothes Commands: /male, /female, /top, /undershirt, /torso, /legs, /shoes, /bag, /mask, /hairstyle, /hat, /glasses, /ears, /watch, /bracelet, /tattoo`);
+            player.outputChatBox(`Animation Commands: /playanim, /stopanim`);
             player.outputChatBox(`World Commands: /setvw, /snow, /removesnow`);
         }),
 
@@ -520,6 +523,21 @@ class Commands {
 
         mp.events.addCommand(this.commandsList.REMOVE_SNOW, (player, _fullText) => {
             this.removeSnow(player);
+        }),
+
+        // Animation
+        mp.events.addCommand(this.commandsList.PLAY_ANIMATION, (player, _fullText, animDictionary, animName, speed, flag) => {
+            if (!animDictionary || !animName || !speed || !flag) {
+                player.outputChatBox(`Usage: [/playanim <Anim Dictionary> <Anim Name> <Speed> <Flag>]`);
+                return;
+            }
+            player.outputChatBox(`PlayAnim: dictionary: ${animDictionary}, name: ${animName}`);
+            player.playAnimation(animDictionary, animName, parseFloat(speed), parseFloat(flag));
+        }),
+
+        mp.events.addCommand(this.commandsList.STOP_ANIMATION, (player) => {
+            player.outputChatBox(`StopAnim`);
+            player.stopAnimation();
         }),
 
         mp.events.add("playerCommand", (player, command) => {
