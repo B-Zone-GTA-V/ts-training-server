@@ -49,6 +49,8 @@ class Commands {
         HAIRSTYLE: 'hairstyle',
         HAT: 'hat',
         GLASSES: 'glasses',
+        ACCESSORIES: 'accessories',
+        DECAL: 'decal',
         EARS: 'ears',
         WATCH: 'watch',
         BRACELET: 'bracelet',
@@ -417,6 +419,22 @@ class Commands {
                 return;
             }
             player.setClothes(ClothesComponents.BAG, parseInt(drawable), parseInt(texture), 2);
+        }),
+
+        mp.events.addCommand(this.commandsList.DECAL, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/decal <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setClothes(ClothesComponents.DECAL, parseInt(drawable), parseInt(texture), 2);
+        }),
+
+        mp.events.addCommand(this.commandsList.ACCESSORIES, (player, _fullText, drawable, texture) => {
+            if (!drawable || !texture) {
+                player.outputChatBox(`Usage: [/accessories <Drawable Id> <Texture Id>]`);
+                return;
+            }
+            player.setClothes(ClothesComponents.ACCESSORIES, parseInt(drawable), parseInt(texture), 2);
         }),
         
         mp.events.addCommand(this.commandsList.MASK, (player, _fullText, drawable, texture) => {
