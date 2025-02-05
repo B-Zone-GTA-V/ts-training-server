@@ -4,14 +4,14 @@
 /* eslint-disable no-var */
 import { ItemsCollection, Menu, Point, UIMenuItem, UIMenuListItem } from './nativeui/index';
 
-export namespace ExternalPackages {
-    let player = mp.players.local;
+export class ExternalPackages {
+    player = mp.players.local;
 
-    let todosMenus = [];
+    todosMenus: any[] = [];
 
-    let menuRoupas: any = new Menu("Clothes", "", new Point(50, 50));
+    menuRoupas: any = new Menu("Clothes", "", new Point(50, 50));
 
-    let components: {componentId: number, name: string, desc: string, items: any[], textures: any[], menu: any}[] = [
+    components: {componentId: number, name: string, desc: string, items: any[], textures: any[], menu: any}[] = [
         {
             componentId: 1,
             name: "Masks",
@@ -95,47 +95,69 @@ export namespace ExternalPackages {
 
     ];
 
-    components.forEach((component) => {
-        let i = 0;
-        
-        let menu = new UIMenuItem(component.name, component.desc);
-
-        menuRoupas.AddItem(menu);
-        
-        for (i = 0; i < player.getNumberOfDrawableVariations(component.componentId) + 1; i++) component.items.push(i.toString());
-        let limit = player.getNumberOfTextureVariations(1, player.getDrawableVariation(component.componentId));
-        for (i = 0; i < limit + 1; i++) component.textures.push(i.toString());
-
-        component.menu = new Menu(component.name, "", new Point(50, 50));
-        let items = new UIMenuListItem(component.name, component.desc, new ItemsCollection(component.items), player.getDrawableVariation(1));
-        let textures = new UIMenuListItem("Texture", "Select your texture.", new ItemsCollection(component.textures), player.getTextureVariation(1));
-        component.menu.AddItem(items);
-        component.menu.AddItem(textures);
-        component.menu.Visible = false;
-        todosMenus.push(component.menu);
-
-        component.menu.ListChange.on((item: any, _: any) => {
-            let drawable = parseInt(items.SelectedItem.DisplayText);
-            let texture = parseInt(textures.SelectedItem.DisplayText);
-            switch (item) {
-                case items:
-                    mp.events.callRemote('setClothes', component.componentId, drawable, 0);
-                    component.textures = [];
-                    for (i = 0; i < player.getNumberOfTextureVariations(component.componentId, player.getDrawableVariation(component.componentId)) + 1; i++) component.textures.push(i.toString());
-                    textures.Collection = new ItemsCollection(component.textures).getListItems();
-                    textures.Index = 0;
-                break
+    init() {
+        this.components.forEach((component) => {
+            let i = 0;
+            
+            let menu = new UIMenuItem(component.name, component.desc);
     
-                case textures:
-                    mp.events.callRemote('setClothes', component.componentId, drawable, texture);
+            this.menuRoupas.AddItem(menu);
+            
+            for (i = 0; i <  this.player.getNumberOfDrawableVariations(component.componentId) + 1; i++) component.items.push(i.toString());
+            let limit =  this.player.getNumberOfTextureVariations(1,  this.player.getDrawableVariation(component.componentId));
+            for (i = 0; i < limit + 1; i++) component.textures.push(i.toString());
+    
+            component.menu = new Menu(component.name, "", new Point(50, 50));
+            let items = new UIMenuListItem(component.name, component.desc, new ItemsCollection(component.items),  this.player.getDrawableVariation(1));
+            let textures = new UIMenuListItem("Texture", "Select your texture.", new ItemsCollection(component.textures),  this.player.getTextureVariation(1));
+            component.menu.AddItem(items);
+            component.menu.AddItem(textures);
+            component.menu.Visible = false;
+            this.todosMenus.push(component.menu);
+    
+            component.menu.ListChange.on((item: any, _: any) => {
+                let drawable = parseInt(items.SelectedItem.DisplayText);
+                let texture = parseInt(textures.SelectedItem.DisplayText);
+                switch (item) {
+                    case items:
+                        mp.events.callRemote('setClothes', component.componentId, drawable, 0);
+                        component.textures = [];
+                        for (i = 0; i <  this.player.getNumberOfTextureVariations(component.componentId,  this.player.getDrawableVariation(component.componentId)) + 1; i++) component.textures.push(i.toString());
+                        textures.Collection = new ItemsCollection(component.textures).getListItems();
+                        textures.Index = 0;
+                    break
+        
+                    case textures:
+                        mp.events.callRemote('setClothes', component.componentId, drawable, texture);
+                }
+            });
+    
+            this.menuRoupas.BindMenuToItem(component.menu, menu);
+        });
+    
+        this.menuRoupas.Visible = false;
+        this.todosMenus.push( this.menuRoupas);
+
+        mp.keys.bind(0x72, false, () => {
+            const value = this.components.some(el => el.menu.Visible) ? 1 : 0;
+            if (this.menuRoupas.Visible | value) {
+                this.todosMenus.forEach(function(element, _a, _b){element.Close()});
+            } else {
+                
+                this.menuRoupas.Open();
+                mp.gui.chat.show(false);
+                mp.gui.cursor.visible = false;
             }
         });
+    
+        this.menuRoupas.MenuClose.on(() => {
+            mp.gui.chat.show(true);
+            mp.gui.cursor.visible = false;
+        });
+        return;
+    }
 
-        menuRoupas.BindMenuToItem(component.menu, menu);
-    });
 
-    menuRoupas.Visible = false;
-    todosMenus.push(menuRoupas);
 
     // Drawable
     // let chapeusDrawable = [];
@@ -174,20 +196,5 @@ export namespace ExternalPackages {
     // MENU ÓCULOS PROP 1
     ///////////////////////////////////////////////////////
 
-    mp.keys.bind(0x72, false, () => {
-        const value = components.some(el => el.menu.Visible) ? 1 : 0;
-        if (menuRoupas.Visible | value) {
-            todosMenus.forEach(function(element, _a, _b){element.Close()});
-        } else {
-            
-            menuRoupas.Open();
-            mp.gui.chat.show(false);
-            mp.gui.cursor.visible = false;
-        }
-    });
 
-    menuRoupas.MenuClose.on(() => {
-        mp.gui.chat.show(true);
-        mp.gui.cursor.visible = false;
-    });
 }
