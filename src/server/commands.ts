@@ -508,6 +508,14 @@ class Commands {
             }
             player.setDecoration(mp.joaat(collection), mp.joaat(overlay));
         }),
+
+        mp.events.add('setClothes', (player, componentId, drawable, texture) => {
+            player.setClothes(parseInt(componentId), parseInt(drawable), parseInt(texture), 2);
+        }),
+        
+        mp.events.add('setProp', (player, componentId, drawable, texture) => {
+            player.setProp(parseInt(componentId), parseInt(drawable), parseInt(texture));
+        }),
         
         // Weather
         mp.events.addCommand(this.commandsList.SETTIME, (player, _fullText, time) => {

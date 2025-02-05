@@ -6,7 +6,8 @@
 		"paths": {
 			"@shared/*": ["../shared/*"],
 			"@/*": ["./*"]
-		}
+		},
+		"allowJs": true
 	},
 	"include": ["./**/*.ts", "../shared/**/*.ts"],
 	"exclude": ["../shared/**/*.d.ts"]

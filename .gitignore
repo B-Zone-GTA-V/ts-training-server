@@ -114,3 +114,4 @@ dist/BugTrap-x64.dll
 
 # client_packages resources
 dist/client_packages/game_resources/
+/game_resources/

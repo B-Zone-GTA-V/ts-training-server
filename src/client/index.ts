@@ -8,6 +8,7 @@ import { debugLabel } from './debug_labels';
 import { snow } from './snow';
 import { interiors } from './interiors';
 import { vehicleSpeedo } from './speedo';
+import './external/index';
 
 mp.events.add('playerReady', () => {
 	mp.console.logInfo(`${mp.players.local.name} is ready!`);
