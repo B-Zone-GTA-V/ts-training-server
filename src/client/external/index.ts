@@ -2,12 +2,7 @@
 /* eslint-disable no-inner-declarations */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-var */
-import * as NativeUI from './nativeui/index';
-const Menu = NativeUI.Menu;
-const UIMenuItem = NativeUI.UIMenuItem;
-const UIMenuListItem = NativeUI.UIMenuListItem;
-const Point = NativeUI.Point;
-const ItemsCollection = NativeUI.ItemsCollection;
+import { ItemsCollection, Menu, Point, UIMenuItem, UIMenuListItem } from './nativeui/index';
 
 export namespace ExternalPackages {
     let player = mp.players.local;
@@ -127,7 +122,7 @@ export namespace ExternalPackages {
                     mp.events.callRemote('setClothes', component.componentId, drawable, 0);
                     component.textures = [];
                     for (i = 0; i < player.getNumberOfTextureVariations(component.componentId, player.getDrawableVariation(component.componentId)) + 1; i++) component.textures.push(i.toString());
-                    textures.Collection = new NativeUI.ItemsCollection(component.textures).getListItems();
+                    textures.Collection = new ItemsCollection(component.textures).getListItems();
                     textures.Index = 0;
                 break
     
@@ -179,7 +174,7 @@ export namespace ExternalPackages {
     // MENU ÓCULOS PROP 1
     ///////////////////////////////////////////////////////
 
-    mp.keys.bind(0x71, false, () => {
+    mp.keys.bind(0x72, false, () => {
         const value = components.some(el => el.menu.Visible) ? 1 : 0;
         if (menuRoupas.Visible | value) {
             todosMenus.forEach(function(element, _a, _b){element.Close()});
