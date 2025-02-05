@@ -9,7 +9,7 @@ export class ExternalPackages {
 
     todosMenus: any[] = [];
 
-    menuRoupas: any = new NativeUI("Clothes", "", new Point(50, 50));
+    menuRoupas: any = undefined;
 
     components: {componentId: number, name: string, desc: string, items: any[], textures: any[], menu: any}[] = [
         {
@@ -96,7 +96,12 @@ export class ExternalPackages {
     ];
 
     init() {
+        // this.player.model = mp.game.joaat('mp_f_freemode_01');
+
         mp.gui.chat.push(`External packages initialized.`);
+
+        this.menuRoupas = new NativeUI("Clothes", "", new Point(50, 50));
+
         this.components.forEach((component) => {
             let i = 0;
             
@@ -139,6 +144,14 @@ export class ExternalPackages {
         this.menuRoupas.Visible = false;
         this.todosMenus.push( this.menuRoupas);
 
+        this.menuRoupas.MenuClose.on(() => {
+            mp.gui.chat.show(true);
+            mp.gui.cursor.visible = false;
+        })
+        return;
+    }
+
+    events = [
         mp.keys.bind(0x72, false, () => {
             const value = this.components.some(el => el.menu.Visible) ? 1 : 0;
             if (this.menuRoupas.Visible | value) {
@@ -149,14 +162,8 @@ export class ExternalPackages {
                 mp.gui.chat.show(false);
                 mp.gui.cursor.visible = false;
             }
-        });
-    
-        this.menuRoupas.MenuClose.on(() => {
-            mp.gui.chat.show(true);
-            mp.gui.cursor.visible = false;
-        });
-        return;
-    }
+        }),
+    ]
 
 
 
