@@ -6,13 +6,8 @@ import * as NativeUI from './nativeui/index';
 const Menu = NativeUI.Menu;
 const UIMenuItem = NativeUI.UIMenuItem;
 const UIMenuListItem = NativeUI.UIMenuListItem;
-// const UIMenuCheckboxItem = NativeUI.UIMenuCheckboxItem;
-// const UIMenuSliderItem = NativeUI.UIMenuSliderItem;
-// const BadgeStyle = NativeUI.BadgeStyle;
 const Point = NativeUI.Point;
 const ItemsCollection = NativeUI.ItemsCollection;
-// const Color = NativeUI.Color;
-// const ListItem = NativeUI.ListItem;
 
 export namespace ExternalPackages {
 
