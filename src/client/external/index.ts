@@ -1,15 +1,15 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-/* eslint-disable no-inner-declarations */
-/* eslint-disable eqeqeq */
-/* eslint-disable no-var */
-import { ItemsCollection, Menu, Point, UIMenuItem, UIMenuListItem } from './nativeui/index';
+import NativeUI from "./nativeui";
+import UIMenuItem from "./nativeui/items/UIMenuItem";
+import UIMenuListItem from "./nativeui/items/UIMenuListItem";
+import ItemsCollection from "./nativeui/modules/ItemsCollection";
+import Point from "./nativeui/utils/Point";
 
 export class ExternalPackages {
     player = mp.players.local;
 
     todosMenus: any[] = [];
 
-    menuRoupas: any = new Menu("Clothes", "", new Point(50, 50));
+    menuRoupas: any = new NativeUI("Clothes", "", new Point(50, 50));
 
     components: {componentId: number, name: string, desc: string, items: any[], textures: any[], menu: any}[] = [
         {
@@ -96,6 +96,7 @@ export class ExternalPackages {
     ];
 
     init() {
+        mp.gui.chat.push(`External packages initialized.`);
         this.components.forEach((component) => {
             let i = 0;
             
@@ -107,7 +108,7 @@ export class ExternalPackages {
             let limit =  this.player.getNumberOfTextureVariations(1,  this.player.getDrawableVariation(component.componentId));
             for (i = 0; i < limit + 1; i++) component.textures.push(i.toString());
     
-            component.menu = new Menu(component.name, "", new Point(50, 50));
+            component.menu = new NativeUI(component.name, "", new Point(50, 50));
             let items = new UIMenuListItem(component.name, component.desc, new ItemsCollection(component.items),  this.player.getDrawableVariation(1));
             let textures = new UIMenuListItem("Texture", "Select your texture.", new ItemsCollection(component.textures),  this.player.getTextureVariation(1));
             component.menu.AddItem(items);
@@ -183,7 +184,7 @@ export class ExternalPackages {
     //             mp.events.callRemote('setProp', 0, drawable, 0);
     //             chapeusTextureNewArray = [];
     //             for (i = 0; i < player.getNumberOfPropTextureVariations(0, player.getPropIndex(0)) + 1; i++) chapeusTextureNewArray.push(i.toString());
-    //             chapeusTextureItem.Collection = new NativeUI.ItemsCollection(chapeusTextureNewArray).getListItems();
+    //             chapeusTextureItem.Collection = new nativeui.ItemsCollection(chapeusTextureNewArray).getListItems();
     //             chapeusTextureItem.Index = 0;
     //         break
 
@@ -195,6 +196,7 @@ export class ExternalPackages {
     ///////////////////////////////////////////////////////
     // MENU ÓCULOS PROP 1
     ///////////////////////////////////////////////////////
-
-
 }
+
+const externalPackages = new ExternalPackages();
+export { externalPackages };

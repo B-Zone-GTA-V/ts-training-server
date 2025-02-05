@@ -68,6 +68,7 @@ function cleanUp() {
 		'maps/**/*',
 		'plugins/**/*',
 		'client_packages/game_resources/dlcpacks/**/*',
+		'client_packages/game_resources/**/*',
 		'client_packages/Interfaces/**/*',
 		'pnpm-lock.yaml',
 		'package-lock.json',

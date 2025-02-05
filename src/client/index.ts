@@ -8,7 +8,7 @@ import { debugLabel } from './debug_labels';
 import { snow } from './snow';
 import { interiors } from './interiors';
 import { vehicleSpeedo } from './speedo';
-import './external/index';
+import { externalPackages } from './external/index';
 
 mp.events.add('playerReady', () => {
 	mp.console.logInfo(`${mp.players.local.name} is ready!`);
@@ -36,6 +36,7 @@ function initializeClient(): void {
 	snow.init();
 	interiors.init();
 	vehicleSpeedo.init();
+	externalPackages.init();
 
 	mp.gui.chat.push(`Client initialized.`);
 	mp.gui.chat.push(`_______________________`);
