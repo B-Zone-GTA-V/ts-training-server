@@ -78,22 +78,6 @@ function drawHud(): void {
 }
 
 // NO CLIP
-let getNormalizedVector = function(vector: any) {
-	let mag = Math.sqrt(
-		vector.x * vector.x + vector.y * vector.y + vector.z * vector.z
-	);
-	vector.x = vector.x / mag;
-	vector.y = vector.y / mag;
-	vector.z = vector.z / mag;
-	return vector;
-};
-let getCrossProduct = function(v1: any, v2: any) {
-	let vector = new mp.Vector3(0, 0, 0);
-	vector.x = v1.y * v2.z - v1.z * v2.y;
-	vector.y = v1.z * v2.x - v1.x * v2.z;
-	vector.z = v1.x * v2.y - v1.y * v2.x;
-	return vector;
-};
 let bindVirtualKeys = {
 	F2: 0x71
 };
@@ -105,98 +89,112 @@ let bindASCIIKeys = {
 };
 
 let isNoClip = false;
-let noClipCamera : any;
 let shiftModifier = false;
 let controlModifier = false;
 let localPlayer = mp.players.local;
+let noclipEntity: VehicleMp | PlayerMp = localPlayer;
 
 mp.keys.bind(bindVirtualKeys.F2, true, function() {
 	isNoClip = !isNoClip;
-	if (isNoClip) startNoClip();
-	else stopNoClip();
+
+	if (localPlayer.vehicle) {
+		noclipEntity = localPlayer.vehicle;
+	} else {
+		noclipEntity = localPlayer;
+	}
+
+	if (isNoClip) {	
+		noclipEntity.freezePosition(true);
+		noclipEntity.setInvincible(true);
+		noclipEntity.setCollision(false, false);
+		noclipEntity.setAlpha(128);
+	} else {
+		noclipEntity.freezePosition(false);
+		noclipEntity.setInvincible(false);
+		noclipEntity.setCollision(true, true);
+		noclipEntity.setAlpha(255);
+	}
 });
 
-function startNoClip() {
-	let camPos = new mp.Vector3(
-		localPlayer.position.x,
-		localPlayer.position.y,
-		localPlayer.position.z
-	);
-	let camRot = mp.game.cam.getGameplayCamRot(2);
-	noClipCamera = mp.cameras.new('default', camPos, camRot, 45);
-	noClipCamera.setActive(true);
-	mp.game.cam.renderScriptCams(true, false, 0, true, false, 0);
-	localPlayer.freezePosition(true);
-	localPlayer.setInvincible(true);
+
+let config = {
+    controls: {
+        openKey: 288, // [[F2]]
+        goUp: 86, // [[E]]
+        goDown: 85, // [[Q]]
+        turnLeft: 34, // [[A]]
+        turnRight: 35, // [[D]]
+        goForward: 32,  // [[W]]
+        goBackward: 33, // [[S]]
+        changeSpeed: 21, // [[L-Shift]]
+    },
+
+    offsets: {
+        y: 0.5, // [[How much distance you move forward and backward while the respective button is pressed]]
+        z: 0.2, // [[How much distance you move upward and downward while the respective button is pressed]]
+    },
 }
-function stopNoClip() {
-	if (noClipCamera) {
-		localPlayer.position = noClipCamera.getCoord();
-		localPlayer.setHeading(noClipCamera.getRot(2).z);
-		noClipCamera.destroy(true);
-		noClipCamera = null;
-	}
-	mp.game.cam.renderScriptCams(false, false, 0, true, false, 0);
-	localPlayer.freezePosition(false);
-	localPlayer.setInvincible(false);
-}
+
 mp.events.add('render', function() {
 	drawHud();
 	
-	if (!noClipCamera || mp.gui.cursor.visible) {
+	if (!isNoClip || mp.gui.cursor.visible) {
 		return;
 	}
 	controlModifier = mp.keys.isDown(bindASCIIKeys.LCtrl);
 	shiftModifier = mp.keys.isDown(bindASCIIKeys.Shift);
-	let rot = noClipCamera.getRot(2);
+	let yoff = 0.0
+	let xoff = 0.0
+	let zoff = 0.0
+
+	let currentSpeed = 1.5;
 	let fastMult = 1;
 	let slowMult = 1;
 	if (shiftModifier) {
-		fastMult = 3;
+		fastMult = 2;
 	} else if (controlModifier) {
-		slowMult = 0.5;
+		slowMult = 0.05;
 	}
-	let rightAxisX = mp.game.controls.getDisabledControlNormal(0, 220);
-	let rightAxisY = mp.game.controls.getDisabledControlNormal(0, 221);
-	let leftAxisX = mp.game.controls.getDisabledControlNormal(0, 218);
-	let leftAxisY = mp.game.controls.getDisabledControlNormal(0, 219);
-	let pos = noClipCamera.getCoord();
-	let rr = noClipCamera.getDirection();
-	let vector = new mp.Vector3(0, 0, 0);
-	vector.x = rr.x * leftAxisY * fastMult * slowMult;
-	vector.y = rr.y * leftAxisY * fastMult * slowMult;
-	vector.z = rr.z * leftAxisY * fastMult * slowMult;
-	let upVector = new mp.Vector3(0, 0, 1);
-	let rightVector = getCrossProduct(
-		getNormalizedVector(rr),
-		getNormalizedVector(upVector)
-	);
-	rightVector.x *= leftAxisX * 0.5;
-	rightVector.y *= leftAxisX * 0.5;
-	rightVector.z *= leftAxisX * 0.5;
-	let upMovement = 0.0;
-	if (mp.keys.isDown(bindASCIIKeys.Q)) {
-		upMovement = 0.5;
+	currentSpeed *= fastMult * slowMult;
+
+	const camHeading = mp.game.cam.getGameplayCamRot(2); 
+	noclipEntity.setHeading(camHeading.z);
+
+	mp.game.controls.disableControlAction(0, 32, true);
+	mp.game.controls.disableControlAction(0, 33, true);
+	mp.game.controls.disableControlAction(0, 34, true);
+	mp.game.controls.disableControlAction(0, 35, true);
+	mp.game.controls.disableControlAction(0, 86, true);
+	mp.game.controls.disableControlAction(0, 85, true);
+
+	if (mp.game.controls.isDisabledControlPressed(0, config.controls.goForward)) {
+		yoff = config.offsets.y;
 	}
-	let downMovement = 0.0;
-	if (mp.keys.isDown(bindASCIIKeys.E)) {
-		downMovement = 0.5;
+	
+	if (mp.game.controls.isDisabledControlPressed(0, config.controls.goBackward)) {
+		yoff = -1 * config.offsets.y;
 	}
-	mp.players.local.position = new mp.Vector3(
-		pos.x + vector.x + 1,
-		pos.y + vector.y + 1,
-		pos.z + vector.z + 1
-	);
-	mp.players.local.heading = rr.z;
-	noClipCamera.setCoord(
-		pos.x - vector.x + rightVector.x,
-		pos.y - vector.y + rightVector.y,
-		pos.z - vector.z + rightVector.z + upMovement - downMovement
-	);
-	noClipCamera.setRot(
-		rot.x + rightAxisY * -5.0,
-		0.0,
-		rot.z + rightAxisX * -5.0,
-		2
-	);
+
+	if (mp.game.controls.isDisabledControlPressed(0, config.controls.turnLeft)) {
+		xoff = -1 * config.offsets.y;
+	}
+	
+	if (mp.game.controls.isDisabledControlPressed(0, config.controls.turnRight)) {
+		xoff = config.offsets.y;
+	}
+	
+	if (mp.game.controls.isDisabledControlPressed(0, config.controls.goUp)) {
+		zoff = config.offsets.z;
+	}
+	
+	if (mp.game.controls.isDisabledControlPressed(0, config.controls.goDown)) {
+		zoff = -config.offsets.z;
+	}
+
+	let newPos = noclipEntity.getOffsetFromInWorldCoords(xoff * (currentSpeed + 0.3), yoff * (currentSpeed + 0.3), zoff * (currentSpeed + 0.3));
+	let heading = noclipEntity.getHeading();
+	noclipEntity.setVelocity(0.0, 0.0, 0.0);
+	noclipEntity.setRotation(0.0, 0.0, 0.0, 0, false);
+	noclipEntity.setHeading(heading);
+	noclipEntity.setCoordsNoOffset(newPos.x, newPos.y, newPos.z, isNoClip, isNoClip, isNoClip);
 });
