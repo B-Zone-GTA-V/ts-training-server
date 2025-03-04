@@ -24,7 +24,37 @@ export const HeistsYaht = {
         },
     },
 
+    
+    Water: {
+        handle: 0,
+        water: 0,
+        modelHash: mp.game.joaat('apa_mp_apa_yacht_jacuzzi_ripple1'),
+
+        Enable: async (state: boolean) => {
+            HeistsYaht.Water.handle = mp.game.object.getClosestObjectOfType(-2023.773, -1038.0, 5.40, 5.0, HeistsYaht.Water.modelHash, false, false, false)
+
+            if (state) {
+                if (HeistsYaht.Water.handle === 0) {
+                    mp.game.streaming.requestModel(HeistsYaht.Water.modelHash);
+                    
+                    const success = await mp.game.waitForAsync(() => mp.game.streaming.hasModelLoaded(HeistsYaht.Water.modelHash), 5000);
+
+                    if (!success) return;
+
+                    HeistsYaht.Water.water = mp.game.object.createObjectNoOffset(HeistsYaht.Water.modelHash, -2023.773, -1038.0, 5.40, false, false, false)
+                    mp.game.entity.setAsMissionEntity(HeistsYaht.Water.water, false, false)
+                }
+            } else {
+                if (HeistsYaht.Water.handle !== 0) {
+                    mp.game.entity.setAsMissionEntity(HeistsYaht.Water.handle, false, false)
+                    mp.game.entity.delete(HeistsYaht.Water.handle)
+                }
+            }
+        }
+    },
+
     Load: () => {
         HeistsYaht.Ipl.Yaht.Load();
+        HeistsYaht.Water.Enable(true);
     }
 };

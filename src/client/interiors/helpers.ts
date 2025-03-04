@@ -13,3 +13,17 @@ export function enableIpl(ipl: string | Array<string>, activate: boolean) {
         }
     }
 }
+
+export interface InteriorProps {
+    coords: Vector3,
+    props: Array<string>,
+}
+
+export function enableInteriorProps(interiorProps: InteriorProps) {        
+    const interior = mp.game.interior.getInteriorAtCoords(interiorProps.coords.x, interiorProps.coords.y, interiorProps.coords.z);
+    for (const prop of interiorProps.props) {
+        if (!mp.game.interior.isInteriorPropEnabled(interior, prop)) mp.game.interior.enableInteriorProp(interior, prop);
+    }
+    
+    mp.game.interior.refreshInterior(interior);
+}
