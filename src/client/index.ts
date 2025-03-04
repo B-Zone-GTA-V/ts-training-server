@@ -117,6 +117,16 @@ mp.keys.bind(bindVirtualKeys.F2, true, function() {
 });
 
 
+mp.keys.bind(9, true, function() {
+	let veh = mp.players.local.vehicle;
+	if (veh) {
+		if (veh.getPedInSeat(-1) === mp.players.local.handle) {
+			veh.setEngineOn(!veh.getIsEngineRunning(), true, true);
+			mp.gui.chat.push(`Engine: ${veh.getIsEngineRunning() ? 'ON' : 'OFF'}`);
+		}
+	}
+});
+
 let config = {
     controls: {
         openKey: 288, // [[F2]]
@@ -137,6 +147,9 @@ let config = {
 
 mp.events.add('render', function() {
 	drawHud();
+	mp.game.vehicle.defaultEngineBehaviour = false;
+	mp.players.local.setConfigFlag(429, true); //ENGINE TURN ON FLAG
+	mp.players.local.setConfigFlag(241, true); //ENGINE TURN OFF FLAG
 	
 	if (!isNoClip || mp.gui.cursor.visible) {
 		return;
