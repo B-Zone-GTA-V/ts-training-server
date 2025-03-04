@@ -40,13 +40,13 @@ function initializeClient(): void {
 
 	mp.gui.chat.push(`Client initialized.`);
 	mp.gui.chat.push(`_______________________`);
-	mp.gui.chat.push(`Welcome to Training B-Zone V. Use /help for commands.`);
+	mp.gui.chat.push(`Welcome to Mapping B-Zone V. Use /help for commands.`);
 	mp.gui.chat.push(`Don't forget to change the PORT (from 12345 to 22005) before you connect to the OFFICIAL Server!`);
 	mp.gui.chat.push(`_______________________`);
 }
 
 function drawHud(): void {
-	mp.game.graphics.drawText(`Training B-Zone V`, [0.5, 0.005], { 
+	mp.game.graphics.drawText(`Mapping B-Zone V`, [0.5, 0.005], { 
 		font: 4, 
 		color: [255, 255, 255, 185], 
 		scale: [0.5, 0.5], 

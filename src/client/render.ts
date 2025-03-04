@@ -15,9 +15,9 @@ class GlobalRender {
 
     customPauseMenu(): void {
         if (!mp.game.ui.isPauseMenuActive()) return;
-        const firstLineText = `Mafiot`; // 'First line'
+        const firstLineText = `Mapper`; // 'First line'
         const secondLineText = `${mp.players.local.name}`; // 'Second line'
-        const thirdLineText = 'Training B-Zone V'; // 'Third line'
+        const thirdLineText = 'Mapping B-Zone V'; // 'Third line'
 
         mp.game.graphics.beginScaleformMovieMethodOnFrontend('SET_HEADING_DETAILS');
         mp.game.graphics.scaleformMovieMethodAddParamTextureNameString(firstLineText);

@@ -9,8 +9,26 @@ class interiorsUtils {
     enableIpls() {
         this.loadLosSantosPoliceDepartamentIpl();
         this.loadMechanicsIpl();
+        this.loadMichaelhouse();
         // LS Beach House
         mp.game.streaming.requestIpl('ch1_02_closed');
+        mp.game.streaming.requestIpl('h4_yacht_critical_0');
+        mp.game.streaming.requestIpl('h4_yacht_strm_0');
+        mp.game.streaming.requestIpl('h4_yacht');
+        mp.game.streaming.requestIpl('h4_yacht_long_0');
+        mp.game.streaming.requestIpl('hei_yacht_heist');
+        mp.game.streaming.requestIpl('hei_yacht_heist_bar');
+        mp.game.streaming.requestIpl('hei_yacht_heist_bar_lod');
+        mp.game.streaming.requestIpl('hei_yacht_heist_bedrm');
+        mp.game.streaming.requestIpl('hei_yacht_heist_bedrm_lod');
+        mp.game.streaming.requestIpl('hei_yacht_heist_bridge');
+        mp.game.streaming.requestIpl('hei_yacht_heist_bridge_lod');
+        mp.game.streaming.requestIpl('hei_yacht_heist_enginrm');
+        mp.game.streaming.requestIpl('hei_yacht_heist_enginrm_lod');
+        mp.game.streaming.requestIpl('hei_yacht_heist_lod');
+        mp.game.streaming.requestIpl('hei_yacht_heist_lounge');
+        mp.game.streaming.requestIpl('hei_yacht_heist_lounge_lod');
+        mp.game.streaming.requestIpl('hei_yacht_heist_slod');
     }
 
     loadMechanicsIpl() {
@@ -18,6 +36,18 @@ class interiorsUtils {
         const interiorID = mp.game.interior.getInteriorAtCoords(-344.962, -122.361, 41.5921);
         mp.game.interior.enableInteriorProp(interiorID, 'office_01');
         // mp.game.interior.enableInteriorProp(interiorID, 'office_02');
+    }
+
+    loadMichaelhouse() {
+        const michaleHouseInteriorId = 166657;
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_bed_tidy');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_M_items');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_D_items');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_S_items');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_L_Items');
+
+        mp.game.interior.refreshInterior(michaleHouseInteriorId);
+
     }
 
     loadLosSantosPoliceDepartamentIpl() {
