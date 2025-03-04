@@ -1,3 +1,7 @@
+import { DiamondCasino } from "./interiors/casino";
+import { GunRunningYaht } from "./interiors/gunrunning_yaht";
+import { HeistsYaht } from "./interiors/heist_yaht";
+
 class interiorsUtils {
     init(): void {
         this.enableIpls();
@@ -9,8 +13,13 @@ class interiorsUtils {
     enableIpls() {
         this.loadLosSantosPoliceDepartamentIpl();
         this.loadMechanicsIpl();
+        this.loadMichaelhouse();
         // LS Beach House
         mp.game.streaming.requestIpl('ch1_02_closed');
+        // Load interiors
+        DiamondCasino.Load();
+        HeistsYaht.Load();
+        GunRunningYaht.Load();
     }
 
     loadMechanicsIpl() {
@@ -18,6 +27,18 @@ class interiorsUtils {
         const interiorID = mp.game.interior.getInteriorAtCoords(-344.962, -122.361, 41.5921);
         mp.game.interior.enableInteriorProp(interiorID, 'office_01');
         // mp.game.interior.enableInteriorProp(interiorID, 'office_02');
+    }
+
+    loadMichaelhouse() {
+        const michaleHouseInteriorId = 166657;
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_bed_tidy');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_M_items');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_D_items');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_S_items');
+        mp.game.interior.enableInteriorProp(michaleHouseInteriorId, 'V_Michael_L_Items');
+
+        mp.game.interior.refreshInterior(michaleHouseInteriorId);
+
     }
 
     loadLosSantosPoliceDepartamentIpl() {

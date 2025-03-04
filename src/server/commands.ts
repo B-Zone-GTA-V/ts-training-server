@@ -157,7 +157,7 @@ class Commands {
                     [Math.floor(Math.random() * 255) + 1, Math.floor(Math.random() * 255) + 1, Math.floor(Math.random() * 255) + 1]
                 ]
             });
-        veh.numberPlate = 'TR-BZONE';
+        veh.numberPlate = 'INFINITY';
         player.putIntoVehicle(veh, 0);
         mp.players.broadcast(`(/veh) ${player.name} Spawned a ${name}.`);
     }

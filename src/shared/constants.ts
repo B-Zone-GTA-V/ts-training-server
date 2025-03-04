@@ -1288,7 +1288,10 @@ export const vehicleNameToHash: EnumDictionary<string, string> = {
    "polterminus": "2973836112",
    "titan2": "858355070",
    "uranus": "1534326199",
-   "youga5": "2266063097"
+   "youga5": "2266063097",
+   "GC_22transMoney": "1137720487",
+   "23SPRINT": "832039945",
+   "GAZEL": "1401624033"
 }
 
 export function getVehicleHashByName(vehicleName: string): string | undefined {

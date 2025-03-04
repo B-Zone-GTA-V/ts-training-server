@@ -40,13 +40,13 @@ function initializeClient(): void {
 
 	mp.gui.chat.push(`Client initialized.`);
 	mp.gui.chat.push(`_______________________`);
-	mp.gui.chat.push(`Welcome to Training B-Zone V. Use /help for commands.`);
+	mp.gui.chat.push(`Welcome to Mapping B-Zone V. Use /help for commands.`);
 	mp.gui.chat.push(`Don't forget to change the PORT (from 12345 to 22005) before you connect to the OFFICIAL Server!`);
 	mp.gui.chat.push(`_______________________`);
 }
 
 function drawHud(): void {
-	mp.game.graphics.drawText(`Training B-Zone V`, [0.5, 0.005], { 
+	mp.game.graphics.drawText(`Mapping B-Zone V`, [0.5, 0.005], { 
 		font: 4, 
 		color: [255, 255, 255, 185], 
 		scale: [0.5, 0.5], 
@@ -117,6 +117,16 @@ mp.keys.bind(bindVirtualKeys.F2, true, function() {
 });
 
 
+mp.keys.bind(9, true, function() {
+	let veh = mp.players.local.vehicle;
+	if (veh) {
+		if (veh.getPedInSeat(-1) === mp.players.local.handle) {
+			veh.setEngineOn(!veh.getIsEngineRunning(), true, true);
+			mp.gui.chat.push(`Engine: ${veh.getIsEngineRunning() ? 'ON' : 'OFF'}`);
+		}
+	}
+});
+
 let config = {
     controls: {
         openKey: 288, // [[F2]]
@@ -137,6 +147,9 @@ let config = {
 
 mp.events.add('render', function() {
 	drawHud();
+	mp.game.vehicle.defaultEngineBehaviour = false;
+	mp.players.local.setConfigFlag(429, true); //ENGINE TURN ON FLAG
+	mp.players.local.setConfigFlag(241, true); //ENGINE TURN OFF FLAG
 	
 	if (!isNoClip || mp.gui.cursor.visible) {
 		return;
