@@ -1,6 +1,7 @@
 import { DiamondCasino } from "./interiors/casino";
 import { GunRunningYaht } from "./interiors/gunrunning_yaht";
 import { HeistsYaht } from "./interiors/heist_yaht";
+import { SuperYacht } from "./interiors/super-yacht/load-super-yachts";
 
 class interiorsUtils {
     init(): void {
@@ -20,6 +21,7 @@ class interiorsUtils {
         DiamondCasino.Load();
         HeistsYaht.Load();
         GunRunningYaht.Load();
+        // SuperYacht.Load();
     }
 
     loadMechanicsIpl() {
